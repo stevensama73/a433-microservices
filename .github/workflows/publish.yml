@@ -18,7 +18,7 @@ jobs:
         with:
           registry: ghcr.io
           username: stevensama73
-          password: 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
+          password: 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
       
       - name: 'Build Image'
         run: |
