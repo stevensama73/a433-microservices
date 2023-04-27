@@ -17,8 +17,8 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
-          username: stevensama73
-          password: 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
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
       
       - name: 'Build Image'
         run: |
