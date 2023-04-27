@@ -9,6 +9,8 @@ on:
 jobs:
   push-image:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@main
@@ -22,6 +24,6 @@ jobs:
       
       - name: 'Build Image'
         run: |
-          docker build . --tag ghcr.io/micro/item-app:1.0
-          docker run ghcr.io/micro/item-app:1.0
-          docker push ghcr.io/micro/item-app:1.0
+          docker build -t item-app:v1 .
+          docker tag item-app:v1 ghcr.io/stevensama73/item-app:v1
+          docker push ghcr.io/stevensama73/item-app:v1
