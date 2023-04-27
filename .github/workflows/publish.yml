@@ -1,0 +1,22 @@
+name: Mongo Item App Docker Image
+
+on:
+  release:
+    types: ['created']
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+    uses: docker/login-action@v3
+    with:
+      registry: ghcr.io
+      username: stevensama73
+      password: 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
+      run: 
+        docker build . --tag ghcr.io/stevensama73/item-app:1.0
+        docker run ghcr.io/stevensama73/item-app:1.0
+        docker push ghcr.io/stevensama73/item-app:1.0
+
+
