@@ -11,14 +11,19 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME:
       MONGO_INITDB_ROOT_PASSWORD:
+    restart: always
 
   item-app:
-    build: .
+    image: ghcr.io/stevensama73/item-app:v1
+    command: sh -c "npm install --production --unsafe-perm && npm run build && npm start"
     container_name: "item-app"
+    depends_on:
+      - item-db
     ports:
       - 8080:8080
     volumes:
       - ./:/app
+    restart: always
 
 volumes:
   app-db:
