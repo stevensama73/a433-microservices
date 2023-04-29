@@ -15,10 +15,6 @@ services:
     # Mount path volume dari direktori /data/db
     volumes:
       - app-db:/data/db
-    # Melakukan inisiasi environment yang wajib ketika menggunakan image mongo  
-    environment:
-      MONGO_INITDB_ROOT_USERNAME:
-      MONGO_INITDB_ROOT_PASSWORD:
     # Menggunakan restart policy selalu restart jika service terhenti  
     restart: always
 
