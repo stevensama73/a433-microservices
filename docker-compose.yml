@@ -28,7 +28,7 @@ services:
       - item-db
     # Menggunakan port 8080
     ports:
-      - 8080:8080
+      - 80:8080
     # Menggunakan restart policy selalu restart jika service terhenti
     restart: always
 
