@@ -1,20 +1,21 @@
 version: 2.1
 
 jobs:
-  lint-dockerfile:
+  build-app-karsajobs-ui:
     docker:
-      - image: docker:17.06.1-ce-git
+      - image: docker:stable
     steps:
       - checkout
+      - setup_remote_docker
       - run:
-          name: Run Hadolint
+          name: Build App
           command: |
-            apk update && apk add curl curl-dev bash
-            curl -sSL -o /bin/hadolint "https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64"
-            chmod +x /bin/hadolint
-            hadolint Dockerfile
+            docker build -t stevensama73/karsajobs-ui:latest .
+            docker tag stevensama73/karsajobs-ui:latest ghcr.io/stevensama73/karsajobs-ui:latest
+            echo $CR_PAT | docker login ghcr.io -u stevensama73 --password-stdin
+            docker push ghcr.io/stevensama73/karsajobs-ui:latest
 
 workflows:
   karsajobs-ui:
     jobs:
-      - lint-dockerfile
+      - build-app-karsajobs-ui
