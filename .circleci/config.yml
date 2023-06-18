@@ -5,6 +5,7 @@ jobs:
     docker:
       - image: docker:17.06.1-ce-git
     steps:
+      - checkout
       - run:
           name: Run Hadolint
           command: |
@@ -14,6 +15,6 @@ jobs:
             hadolint Dockerfile
 
 workflows:
-  test:
+  karsajobs-ui:
     jobs:
       - lint-dockerfile
