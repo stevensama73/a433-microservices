@@ -1,16 +1,8 @@
 version: 2.1
 
-executors:
-  docker:
-    docker:
-      - image: docker:stable
-
 jobs:
   lint:
-    executor: docker
     steps:
-      - checkout
-      - setup_remote_docker
       - run:
           name: Run hadolint
           command: docker run --rm --interactive hadolint/hadolint < Dockerfile
