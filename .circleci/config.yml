@@ -9,6 +9,7 @@ jobs:
           name: Run Hadolint
           command: |
             apk update && apk add curl curl-dev bash
+            curl --version
 
 workflows:
   karsajobs-ui:
