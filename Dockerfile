@@ -1,5 +1,5 @@
 FROM golang:1.15-alpine
-
+MAINTAINER test@gmail.com
 WORKDIR /go/src/github.com/dicodingacademy/karsajobs
 ENV GO111MODULE=on
 ENV APP_PORT=8080
