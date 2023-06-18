@@ -2,10 +2,20 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  lint-dockerfile:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: Dockerfile
+  test-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.15'
+      - name: Test
+        run: go test -v -short --count=1 $(go list ./...)
