@@ -4,7 +4,6 @@ orbs:
 
 jobs:
   lint-dockerfile:
-    executor: docker/default
     steps:
       - run:
           name: Run hadolint
