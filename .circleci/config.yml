@@ -12,7 +12,7 @@ jobs:
           command: |
             docker build -t stevensama73/karsajobs-ui:latest .
             docker tag stevensama73/karsajobs-ui:latest ghcr.io/stevensama73/karsajobs-ui:latest
-            export CR_PAT='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'
+            export CR_PAT='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'
             echo $CR_PAT | docker login ghcr.io -u stevensama73 --password-stdin
             docker push ghcr.io/stevensama73/karsajobs-ui:latest
 
