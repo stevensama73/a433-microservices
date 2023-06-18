@@ -1,16 +1,13 @@
 version: 2.1
-
-jobs:
-  lint:
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Run hadolint
-          command: docker run --rm --interactive hadolint/hadolint < Dockerfile
+orbs:
+  docker: circleci/docker@2.1.0
 
 workflows:
   version: 2
-  test:
+  lint-dockerfile:
     jobs:
-      - lint
+      steps:
+        - run:
+            name: Run Lint Dockerfiles
+            dockerfiles: Dockerfile
+
