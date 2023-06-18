@@ -1,4 +1,5 @@
 FROM node:14.21-alpine as builder
+MAINTAINER test@gmail.com
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
