@@ -1,0 +1,16 @@
+version: 2.1
+
+jobs:
+  build-app-karsajobs:
+    docker:
+      - image: cimg/go:1.15.10
+    steps:
+      - run:
+          name: Test App
+          command: |
+            go test -v -short --count=1 $(go list ./...)
+
+workflows:
+  karsajobs:
+    jobs:
+      - build-app-karsajobs

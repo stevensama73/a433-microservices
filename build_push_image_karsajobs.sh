@@ -10,7 +10,7 @@ docker images
 docker tag stevensama73/karsajobs:latest ghcr.io/stevensama73/karsajobs:latest
 
 # Membuat environment variable dengan nama CR_PAT
-export CR_PAT='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'
+export CR_PAT='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'
 
 # Melakukan login ke github packages dengan username dan password dari environment variable dan juga option terakhir ag>echo $CR_PAT | docker login ghcr.io -u stevensama73 --password-stdin
 echo $CR_PAT | docker login ghcr.io -u stevensama73 --password-stdin
