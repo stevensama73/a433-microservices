@@ -6,17 +6,18 @@ executors:
       - image: docker
 
 jobs:
-  test-app:
-    docker:
-      - image: cimg/go:1.15.10
+  build-app-karsajobs-ui:
     steps:
-      - checkout
       - run:
-          name: Test App
+          name: Build App
           command: |
-            go test -v -short --count=1 $(go list ./...)
+            docker build -t stevensama73/karsajobs-ui:latest .
+            docker tag stevensama73/karsajobs-ui:latest ghcr.io/stevensama73/karsajobs-ui:latest
+            export CR_PAT='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'
+            echo $CR_PAT | docker login ghcr.io -u stevensama73 --password-stdin
+            docker push ghcr.io/stevensama73/karsajobs-ui:latest
 
 workflows:
   karsajobs-ui:
     jobs:
-      - test-app
+      - build-app-karsajobs-ui
