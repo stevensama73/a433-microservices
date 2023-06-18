@@ -5,6 +5,7 @@ orbs:
 
 jobs:
   build-app-karsajobs-ui:
+    executor: docker/default
     description: Login to Github Container Registry
     parameters:
       user:
