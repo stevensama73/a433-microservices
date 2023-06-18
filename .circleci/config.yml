@@ -1,22 +1,18 @@
 version: 2.1
 
-executors:
-  docker:
-    docker:
-      - image: docker:stable
-
 jobs:
-  lint:
-    executor: docker
+  lint-dockerfile:
+    docker:
+      image: docker:stable
     steps:
-      - checkout
-      - setup_remote_docker
       - run:
-          name: Run hadolint
-          command: docker run --rm --interactive hadolint/hadolint < Dockerfile
+          name: Run Hadolint
+          command: |
+            curl -sSL /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64
+            chmod +x /bin/hadolint
+            hadolint Dockerfile
 
 workflows:
-  version: 2
   test:
     jobs:
-      - lint
+      - lint-dockerfile
