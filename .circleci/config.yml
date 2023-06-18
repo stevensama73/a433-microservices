@@ -1,9 +1,13 @@
 version: 2.1
 
+executors:
+  docker:
+    docker:
+      - image: docker:stable
+
 jobs:
   lint-dockerfile:
-    docker:
-      image: docker:stable
+    executor: docker
     steps:
       - run:
           name: Run Hadolint
