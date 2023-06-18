@@ -12,7 +12,7 @@ jobs:
           command: |
             docker build -t stevensama73/karsajobs-ui:latest .
             docker tag stevensama73/karsajobs-ui:latest ghcr.io/stevensama73/karsajobs-ui:latest
-            echo "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" | docker login ghcr.io -u stevensama73 --password-stdin
+            echo $CR_PAT | docker login ghcr.io -u stevensama73 --password-stdin
             docker push ghcr.io/stevensama73/karsajobs-ui:latest
 
 workflows:
