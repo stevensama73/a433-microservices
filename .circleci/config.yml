@@ -3,9 +3,8 @@ version: 2.1
 jobs:
   lint-dockerfile:
     docker:
-      image: docker:stable
+      image: hadolint/hadolint:latest-debian
     steps:
-      - checkout
       - run:
           name: Run Hadolint
           command: |
