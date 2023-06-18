@@ -2,12 +2,12 @@ version: 2.1
 orbs:
   docker: circleci/docker@2.1.0
 
-workflows:
-  version: 2
+jobs:
   lint-dockerfile:
-    jobs:
-      steps:
-        - run:
-            name: Run Lint Dockerfiles
-            dockerfiles: Dockerfile
+    executor: docker
+    steps:
+      - run:
+          name: Run hadolint
+          command: docker run --rm --interactive hadolint/hadolint < Dockerfile
+    
 
