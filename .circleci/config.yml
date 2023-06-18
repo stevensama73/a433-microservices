@@ -1,14 +1,22 @@
 version: 2.1
 
+executors:
+  docker:
+    docker:
+      - image: docker:stable
+
 jobs:
-  karsajobs-ui:
+  lint:
+    executor: docker
     steps:
+      - checkout
+      - setup_remote_docker
       - run:
-        name: lint-dockerfile
-        command: docker run --rm --interactive hadolint/hadolint < Dockerfile
+          name: Run hadolint
+          command: docker run --rm --interactive hadolint/hadolint < Dockerfile
 
 workflows:
   version: 2
   test:
     jobs:
-      - karsajobs-ui
+      - lint
