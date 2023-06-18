@@ -12,7 +12,8 @@ jobs:
           command: |
             docker build -t stevensama73/karsajobs-ui:latest .
             docker tag stevensama73/karsajobs-ui:latest ghcr.io/stevensama73/karsajobs-ui:latest
-            echo $env:GITHUB_TOKEN | docker login ghcr.io -u stevensama73 --password-stdin
+            export CR_PAT=$env:GITHUB_TOKEN
+            echo $CR_PAT | docker login ghcr.io -u stevensama73 --password-stdin
             docker push ghcr.io/stevensama73/karsajobs-ui:latest
 
 workflows:
