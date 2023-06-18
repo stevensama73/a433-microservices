@@ -3,9 +3,8 @@ version: 2.1
 jobs:
   lint-dockerfile:
     docker:
-      - image: docker:17.06.1-ce-git
+      - image: ubuntu:latest
     steps:
-      - checkout
       - run:
           name: Run Hadolint
           command: |
