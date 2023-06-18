@@ -4,8 +4,6 @@ jobs:
   build-app-karsajobs-ui:
     docker:
       - image: docker:stable
-    environment:
-      CR_PAT: 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
     steps:
       - checkout
       - setup_remote_docker
@@ -14,7 +12,7 @@ jobs:
           command: |
             docker build -t stevensama73/karsajobs-ui:latest .
             docker tag stevensama73/karsajobs-ui:latest ghcr.io/stevensama73/karsajobs-ui:latest
-            echo $CR_PAT | docker login ghcr.io -u stevensama73 --password-stdin
+            echo $env:GITHUB_TOKEN | docker login ghcr.io -u stevensama73 --password-stdin
             docker push ghcr.io/stevensama73/karsajobs-ui:latest
 
 workflows:
