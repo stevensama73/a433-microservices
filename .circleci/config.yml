@@ -1,14 +1,12 @@
 version: 2.1
 
-executors:
-  docker:
-    docker:
-      - image: docker
-
 jobs:
   build-app-karsajobs-ui:
-    executor: docker
+    docker:
+      - image: docker:stable
     steps:
+      - checkout
+      - setup_remote_docker
       - run:
           name: Build App
           command: |
