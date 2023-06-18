@@ -1,16 +1,8 @@
-version: 2.1
 orbs:
-  docker: docker
-
-jobs:
-  lint-dockerfile:
-    steps:
-      - run:
-          name: Run hadolint
-          command: docker run --rm --interactive hadolint/hadolint < Dockerfile
-    
+  docker: circleci/docker@x.y.z
+version: 2.1
 workflows:
-  version: 2
-  karsajobs-ui:
+  lint:
     jobs:
-      - lint-dockerfile
+      - docker/hadolint:
+        dockerfiles: Dockerfile
