@@ -14,7 +14,6 @@ jobs:
           command: docker run --rm --interactive hadolint/hadolint < Dockerfile
 
 workflows:
-  version: 2
   karsajobs-ui:
     jobs:
       - lint-dockerfile
