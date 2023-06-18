@@ -6,18 +6,15 @@ executors:
       - image: docker
 
 jobs:
-  lint-dockerfile:
-    executor: docker
+  test-app:
     steps:
       - checkout
       - run:
-          name: Run Hadolint
+          name: Test App
           command: |
-            wget -o /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64
-            chmod +x /bin/hadolint
-            hadolint Dockerfile
+            go test -v -short --count=1 $(go list ./...)
 
 workflows:
   karsajobs-ui:
     jobs:
-      - lint-dockerfile
+      - test-app
