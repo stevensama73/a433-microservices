@@ -26,9 +26,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: 'Login to GitHub Container Registry'
-        run: |
-          export CR_PAT='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'
-          echo $CR_PAT | docker login ghcr.io -u stevensama73 --password-stdin
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: 'Build Image'
         run: |
           docker build -t stevensama73/karsajobs:latest .
