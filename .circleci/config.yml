@@ -2,6 +2,7 @@ version: 2.1
 
 jobs:
   lint-dockerfile:
+    executor: docker
     steps:
       - checkout
       - run:
