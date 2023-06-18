@@ -6,3 +6,9 @@ jobs:
       - run:
         name: lint-dockerfile
         command: docker run --rm --interactive hadolint/hadolint < Dockerfile
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - karsajobs-ui
