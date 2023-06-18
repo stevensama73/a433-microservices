@@ -1,10 +1,16 @@
-orbs:
-  docker: circleci/docker@x.y.z
 version: 2.1
-workflows:
+
+executors:
+  docker:
+    docker:
+      - image: docker:stable
+
+jobs:
   lint:
-    jobs:
-      - docker/hadolint:
-        dockerfiles: Dockerfile
-        ignore-rules: 'DL4005,DL3008'
-        trusted-registries: 'docker.io,my-company.com:5000'
+    executor: docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Run hadolint
+          command: docker run --rm --interactive hadolint/hadolint < Dockerfile
