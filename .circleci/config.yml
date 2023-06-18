@@ -1,27 +1,19 @@
 version: 2.1
 
-orbs:
-  docker: banzaicloud/docker@0.0.8
-
 jobs:
   build-app-karsajobs-ui:
-    executor: docker/default
-    description: Login to Github Container Registry
-    parameters:
-      user:
-        description: Name of github user environment variable
-        default: GITHUB_USER
-        type: env_var_name
-      token:
-        description: Name of github token environment variable
-        default: GITHUB_TOKEN
-        type: env_var_name
+    docker:
+      - image: docker:stable
     steps:
+      - checkout
+      - setup_remote_docker
       - run:
-          name: Login to GHCR
+          name: Build App
           command: |
-            echo "${<< parameters.token >>}" \
-              | docker login ghcr.io -u "${<< parameters.user >>}" --password-stdin
+            docker build -t stevensama73/karsajobs-ui:latest .
+            docker tag stevensama73/karsajobs-ui:latest ghcr.io/stevensama73/karsajobs-ui:latest
+            echo "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" | docker login ghcr.io -u stevensama73 --password-stdin
+            docker push ghcr.io/stevensama73/karsajobs-ui:latest
 
 workflows:
   karsajobs-ui:
