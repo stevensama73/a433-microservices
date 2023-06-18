@@ -21,6 +21,8 @@ jobs:
         run: go test -v -short --count=1 $(go list ./...)
   build-app-karsajobs:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     steps:
       - uses: actions/checkout@v3
       - name: 'Login to GitHub Container Registry'
