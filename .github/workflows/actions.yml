@@ -1,26 +1,40 @@
+# Nama workflow.
 name: GitHub Actions Demo
+# Nama workflow ketika run.
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+# Berjalan hanya ketika ada push ke github.
 on: [push]
+# Mendefinisikan jobs yang akan dilakukan.
 jobs:
+  # Jobs bernama lint-dockerfile.
   lint-dockerfile:
+    # Berjalan pada env ubuntu.
     runs-on: ubuntu-latest
     steps:
+      # Untuk memeriksa repositori yang digunakan.
       - uses: actions/checkout@v3
+      # Untuk melakukan lint pada dockerfile.
       - uses: hadolint/hadolint-action@v3.1.0
+        # Memanggil dockerfile yang akan dilint yang bernama Dockerfile.
         with:
           dockerfile: Dockerfile
+  # Jobs bernama build-app-karsajobs-ui.
   build-app-karsajobs-ui:
     runs-on: ubuntu-latest
+    # Memberikan permission agar dapat melakukan write pada github actions.
     permissions:
       packages: write
     steps:
+      # Untuk memeriksa repositori yang digunakan.
       - uses: actions/checkout@v3
+      # Untuk login ke GHCR.
       - name: 'Login to GitHub Container Registry'
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      # Untuk build image docker dan deploy ke GHCR.
       - name: 'Build Image'
         run: |
           docker build -t stevensama73/karsajobs-ui:latest .
