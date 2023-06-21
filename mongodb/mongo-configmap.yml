@@ -1,0 +1,13 @@
+# Berisi instruksi dari versi v1 Kubernetes API mana yang harus digunakan untuk membuat object dari manifest.
+apiVersion: v1
+# Jenis object yang digunakan yaitu ConfigMap.
+kind: ConfigMap
+# Sekumpulan data yang memberikan informasi tentang data lain.
+metadata:
+  # Berisi nama ConfigMap yaitu karsajobs-deployment.
+  name: mongo-configmap
+data:
+  # Memperlakukan data sebagai file mongo.conf yang memiliki properti storage dengan key dbPath dan value /data/db.
+  mongo.conf: |
+    storage:
+      dbPath: /data/db

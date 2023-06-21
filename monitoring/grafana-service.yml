@@ -1,0 +1,21 @@
+# Berisi instruksi dari versi v1 Kubernetes API mana yang harus digunakan untuk membuat object dari manifest.
+apiVersion: v1
+# Jenis object yang digunakan yaitu Service.
+kind: Service
+# Sekumpulan data yang memberikan informasi tentang data lain.
+metadata:
+  # Berisi labels dengan key app dan value grafana.
+  labels:
+    app: grafana
+  # Berisi nama Service yaitu grafana-service.
+  name: grafana-service
+# Berisi spesifikasi object.
+spec:
+  # Ekspos port 3000.
+  ports:
+  - port: 3000
+  # Menggunakan selector app: grafana yang akan digunakan pada Deployment.
+  selector:
+    app: grafana
+  # Menggunakan tipe NodePort.
+  type: NodePort

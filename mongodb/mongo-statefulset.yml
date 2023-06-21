@@ -1,0 +1,91 @@
+# Berisi instruksi dari versi apps/v1 Kubernetes API mana yang harus digunakan untuk membuat object dari manifest.
+apiVersion: apps/v1
+# Jenis object yang digunakan yaitu StatefulSet.
+kind: StatefulSet
+# Sekumpulan data yang memberikan informasi tentang data lain.
+metadata:
+  name: mongo-stateful
+  labels:
+    app: mongo
+# Berisi spesifikasi object.
+spec:
+  # Menggunakan matchLabels app: mongo.
+  selector:
+    matchLabels:
+      app: mongo
+  # Menggunakan Service dengan nama mongo-service.
+  serviceName: mongo-service
+  # Membuat replica pod sebanyak 1.
+  replicas: 1
+  # Minimal waktu untuk pod siap atau tersedia selama 10 detik.
+  minReadySeconds: 10
+  template:
+    metadata:
+      # Berisi labels dengan key app dan value karsajobs.
+      labels:
+        app: mongo
+    spec:
+      # Waktu tenggang 10 detik sebelum container dihancurkan.
+      terminationGracePeriodSeconds: 10
+      containers:
+       # Image container mongo:3.
+      - image: mongo:3
+        # Nama container karsajobs.
+        name: mongo
+        env:
+          # Environment variable dengan nama MONGO_INITDB_ROOT_USERNAME_FILE.
+          - name: MONGO_INITDB_ROOT_USERNAME_FILE
+            # Berisi value dari path /etc/mongo-credentials/MONGO_ROOT_USERNAME.
+            value: /etc/mongo-credentials/MONGO_ROOT_USERNAME
+          # Environment variable dengan nama MONGO_INITDB_ROOT_PASSWORD_FILE.
+          - name: MONGO_INITDB_ROOT_PASSWORD_FILE
+            # Berisi value dari path /etc/mongo-credentials/MONGO_ROOT_PASSWORD.
+            value: /etc/mongo-credentials/MONGO_ROOT_PASSWORD
+        # Menggunakan container port 27017.
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        # Volume mounts dengan nama mongo-credentials.
+        - name: mongo-credentials
+          # Dari mount path /etc/mongo-credentials.
+          mountPath: /etc/mongo-credentials
+        # Volume mounts dengan nama mongo-configmap.
+        - name: mongo-configmap
+          # Dari mount path /config.
+          mountPath: /config
+        # Volume mounts dengan nama /data/db.
+        - name: mongo-persistent-storage
+          mountPath: /data/db
+      volumes:
+      # Volume dengan nama mongo-credentials.
+      - name: mongo-credentials
+        # Bertipe secret.
+        secret:
+          # Menggunakan secret bernama mongo-secret.
+          secretName: mongo-secret
+          items:
+          # Key bernama MONGO_ROOT_USERNAME dengan path MONGO_ROOT_USERNAME.
+          - key: MONGO_ROOT_USERNAME
+            path: MONGO_ROOT_USERNAME
+            # Mode untuk read-only.
+            mode: 0444
+          # Key bernama MONGO_ROOT_PASSWORD dengan path MONGO_ROOT_PASSWORD.
+          - key: MONGO_ROOT_PASSWORD
+            path: MONGO_ROOT_PASSWORD
+            # Mode untuk read-only.
+            mode: 0444
+      # Volume dengan nama mongo-configmap.
+      - name: mongo-configmap
+        configMap:
+          # Menggunakan onfigMap bernama mongo-configmap.
+          name: mongo-configmap
+          items:
+          # Key bernama mongo.conf dengan path mongo.conf.
+          - key: mongo.conf
+            path: mongo.conf
+       # Volume dengan nama mongo-persistent-storage.
+      - name: mongo-persistent-storage
+        # Menggunakan persistentVolumeClaim bernama mongo-pv-claim.
+        persistentVolumeClaim:
+          claimName: mongo-pv-claim
+      

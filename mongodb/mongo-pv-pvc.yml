@@ -1,0 +1,47 @@
+# Berisi instruksi dari versi v1 Kubernetes API mana yang harus digunakan untuk membuat object dari manifest.
+apiVersion: v1
+# Jenis object yang digunakan yaitu PersistentVolume.
+kind: PersistentVolume
+# Sekumpulan data yang memberikan informasi tentang data lain.
+metadata:
+  # Berisi nama PersistentVolume yaitu mongo-pv.
+  name: mongo-pv
+  # Berisi labels dengan key type dan value local.
+  labels:
+    type: local
+# Berisi spesifikasi object.
+spec:
+  # Menggunakan storageClassName bernama standard.
+  storageClassName: standard
+  # Kapasitas storage yang digunakan 2 Gigabyte.
+  capacity:
+    storage: 2Gi
+  # Akses yang dapat dilakukan read atau write yang hanya dilakukan sekali pada setiap proses.
+  accessModes:
+    - ReadWriteOnce
+  # Host path pada /mnt/data/mongo.
+  hostPath:
+    path: "/mnt/data/mongo"
+---
+# Berisi instruksi dari versi v1 Kubernetes API mana yang harus digunakan untuk membuat object dari manifest.
+apiVersion: v1
+# Jenis object yang digunakan yaitu PersistentVolumeClaim.
+kind: PersistentVolumeClaim
+# Sekumpulan data yang memberikan informasi tentang data lain.
+metadata:
+  # Berisi nama PersistentVolumeClaim yaitu mongo-pv-claim.
+  name: mongo-pv-claim
+  # Berisi labels dengan key app dan value mongo.
+  labels:
+    app: mongo
+# Berisi spesifikasi object.
+spec:
+  # Menggunakan storageClassName bernama standard.
+  storageClassName: standard
+  # Akses yang dapat dilakukan read atau write yang hanya dilakukan sekali pada setiap proses.
+  accessModes:
+    - ReadWriteOnce
+  # Kapasitas storage yang digunakan 2 Gigabyte.
+  resources:
+    requests:
+      storage: 2Gi

@@ -1,0 +1,55 @@
+# Berisi instruksi dari versi apps/v1 Kubernetes API mana yang harus digunakan untuk membuat object dari manifest.
+apiVersion: apps/v1
+# Jenis object yang digunakan yaitu Deployment.
+kind: Deployment
+# Sekumpulan data yang memberikan informasi tentang data lain.
+metadata:
+  # Berisi nama Deployment yaitu karsajobs-deployment.
+  name: karsajobs-deployment
+  # Berisi labels dengan key app dan value karsajobs.
+  labels:
+    app: karsajobs
+# Berisi spesifikasi object.
+spec:
+  # Membuat replica pod sebanyak 1.
+  replicas: 1
+  # Menggunakan matchLabels app: karsajobs.
+  selector:
+    matchLabels:
+      app: karsajobs
+  # Berisi metadata dan spec.
+  template:
+    metadata:
+      # Berisi labels dengan key app dan value karsajobs.
+      labels:
+        app: karsajobs
+    spec:
+      # Membuat container.
+      containers:
+      # Nama container karsajobs.
+      - name: karsajobs
+        # Image container ghcr.io/stevensama73/karsajobs:latest.
+        image: ghcr.io/stevensama73/karsajobs:latest
+        # Menggunakan container port 8080.
+        ports:
+          - containerPort: 8080
+        # Mendefinisikan environment variable.
+        env:
+          # Environment variable dengan nama MONGO_HOST.
+          - name: MONGO_HOST
+            # Berisi value mongo-service.
+            value: mongo-service
+          # Environment variable dengan nama MONGO_USER.
+          - name: MONGO_USER
+            # Mengambil value dari secret yang bernama mongo-secret dengan key MONGO_ROOT_USERNAME.
+            valueFrom:
+              secretKeyRef:
+                name: mongo-secret
+                key: MONGO_ROOT_USERNAME
+          # Environment variable dengan nama MONGO_PASS.
+          - name: MONGO_PASS
+            valueFrom:
+              # Mengambil value dari secret yang bernama mongo-secret dengan key MONGO_ROOT_PASSWORD.
+              secretKeyRef:
+                name: mongo-secret
+                key: MONGO_ROOT_PASSWORD

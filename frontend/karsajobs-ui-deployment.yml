@@ -1,0 +1,35 @@
+# Berisi instruksi dari versi apps/v1 Kubernetes API mana yang harus digunakan untuk membuat object dari manifest.
+apiVersion: apps/v1
+# Jenis object yang digunakan yaitu Deployment.
+kind: Deployment
+# Sekumpulan data yang memberikan informasi tentang data lain.
+metadata:
+  # Berisi nama Deployment yaitu karsajobs-ui-deployment.
+  name: karsajobs-ui-deployment
+  # Berisi labels dengan key app dan value karsajobs-ui.
+  labels:
+    app: karsajobs-ui
+# Berisi spesifikasi object.
+spec:
+  # Membuat replica pod sebanyak 1.
+  replicas: 1
+  # Menggunakan matchLabels app: karsajobs-ui.
+  selector:
+    matchLabels:
+      app: karsajobs-ui
+  # Berisi metadata dan spec.
+  template:
+    metadata:
+      # Berisi labels dengan key app dan value karsajobs-ui.
+      labels:
+        app: karsajobs-ui
+    spec:
+      # Membuat container.
+      containers:
+      # Nama container karsajobs-ui.
+      - name: karsajobs-ui
+        # Image container ghcr.io/stevensama73/karsajobs-ui:latest.
+        image: ghcr.io/stevensama73/karsajobs-ui:latest
+        # Menggunakan container port 8000.
+        ports:
+          - containerPort: 8000

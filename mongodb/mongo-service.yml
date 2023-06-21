@@ -1,0 +1,22 @@
+# Berisi instruksi dari versi v1 Kubernetes API mana yang harus digunakan untuk membuat object dari manifest.
+apiVersion: v1
+# Jenis object yang digunakan yaitu Service.
+kind: Service
+# Sekumpulan data yang memberikan informasi tentang data lain.
+metadata:
+  # Berisi labels dengan key app dan value mongo.
+  labels:
+    app: mongo
+  # Berisi nama Service yaitu mongo-service.
+  name: mongo-service
+# Berisi spesifikasi object.
+spec:
+  # Ekspos port 27017.
+  ports:
+  - port: 27017
+  # Menggunakan selector app: mongo yang akan digunakan pada Deployment.
+  selector:
+    app: mongo
+  # Tidak menggunakan clusterIP.
+  clusterIP: None
+      
