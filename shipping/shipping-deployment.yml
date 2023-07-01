@@ -1,0 +1,46 @@
+# Berisi instruksi dari versi apps/v1 Kubernetes API mana yang harus digunakan untuk membuat object dari manifest.
+apiVersion: apps/v1
+# Jenis object yang digunakan yaitu Deployment.
+kind: Deployment
+# Sekumpulan data yang memberikan informasi tentang data lain.
+metadata:
+  # Berisi nama Deployment yaitu shipping-deployment.
+  name: shipping-deployment
+  # Berisi labels dengan key app dan value shipping.
+  labels:
+    app: shipping
+# Berisi spesifikasi object.
+spec:
+  # Membuat replica pod sebanyak 1.
+  replicas: 1
+  # Menggunakan matchLabels app: shipping.
+  selector:
+    matchLabels:
+      app: shipping
+  # Berisi metadata dan spec.
+  template:
+    metadata:
+      # Berisi labels dengan key app dan value shipping.
+      labels:
+        app: shipping
+    spec:
+      # Membuat container sebelum container yang lain dibuat.
+      initContainers:
+      # Nama initContainers check-rabbitmq-ready.
+      - name: check-rabbitmq-ready
+        # Image initContainers check-rabbitmq-ready.
+        image: busybox
+        # Menjalankan perintah mengunduh file dari halaman tersebut, kemudian menampilkan pesan waiting for rabbitmq.
+        # Lalu akan sleep selama 2 detik jika berhasil akan muncul pesan done, jika tidak proses akan diulang
+        command: [ 'sh', '-c',
+            'until wget http://test:password@my-rabbitmq-headless:15672/api/aliveness-test/%2F;
+            do echo waiting for rabbitmq; sleep 2; done;' ]
+      # Membuat container.
+      containers:
+      # Nama container shipping.
+      - name: shipping
+        # Image container ghcr.io/stevensama73/shipping:latest.
+        image: ghcr.io/stevensama73/shipping:latest
+        # Menggunakan container port 8080.
+        ports:
+          - containerPort: 3001

@@ -1,0 +1,21 @@
+# Berisi instruksi dari versi v1 Kubernetes API mana yang harus digunakan untuk membuat object dari manifest.
+apiVersion: v1
+# Jenis object yang digunakan yaitu Service.
+kind: Service
+# Sekumpulan data yang memberikan informasi tentang data lain.
+metadata:
+  # Berisi labels dengan key app dan value shipping.
+  labels:
+    app: shipping
+    service: shipping
+  # Berisi nama Service yaitu shipping.
+  name: shipping
+# Berisi spesifikasi object.
+spec:
+  # Ekspos port 3001.
+  ports:
+  - port: 3001
+    name: http
+  # Menggunakan selector app: shipping yang akan digunakan pada Deployment.
+  selector:
+    app: shipping

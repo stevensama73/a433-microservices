@@ -1,0 +1,47 @@
+# Berisi instruksi dari networking.istio.io/v1alpha3 Kubernetes API mana yang harus digunakan untuk membuat object dari manifest.
+apiVersion: networking.istio.io/v1alpha3
+# Jenis object yang digunakan yaitu Gateway.
+kind: Gateway
+# Sekumpulan data yang memberikan informasi tentang data lain.
+metadata:
+  # Berisi nama Gateway yaitu order-gateway.
+  name: order-gateway
+spec:
+  # Menggunakan selector istio: ingressgateway.
+  selector:
+    istio: ingressgateway
+  # Menetapkan server hanya dapat diakses dengan protokol http dengan port 80.
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    # Alamat yang bisa mengakses service adalah apa pun.
+    hosts:
+    - "*"
+---
+# Jenis object yang digunakan yaitu VirtualService.
+apiVersion: networking.istio.io/v1alpha3
+# Berisi instruksi dari networking.istio.io/v1alpha3 Kubernetes API mana yang harus digunakan untuk membuat object dari manifest.
+kind: VirtualService
+# Sekumpulan data yang memberikan informasi tentang data lain.
+metadata:
+  # Berisi nama Gateway yaitu order.
+  name: VirtualService
+spec:
+  # Alamat yang bisa mengakses service adalah apa pun.
+  hosts:
+  - "*"
+  # Menggunakan gateways bernama order-gateway.
+  gateways:
+  - order-gateway
+  http:
+  # Merutekan ke uri /order dari host Service yang bernama order dengan port 3000.
+  - match:
+    - uri:
+        exact: /order
+    route:
+    - destination:
+        host: order
+        port:
+          number: 3000
